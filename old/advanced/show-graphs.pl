@@ -53,22 +53,10 @@ __DATA__
             },
             plotOptions: {
                 area: {
-                    fillColor: {
-                        linearGradient: {
-                            x1: 0,
-                            y1: 0,
-                            x2: 0,
-                            y2: 1
-                        },
-                        stops: [
-                            [0, Highcharts.getOptions().colors[0]],
-                            [1, Highcharts.color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-                        ]
-                    },
                     marker: {
-                        radius: 2
+                        radius: 3
                     },
-                    lineWidth: 1,
+                    lineWidth: 2,
                     states: {
                         hover: {
                             lineWidth: 1

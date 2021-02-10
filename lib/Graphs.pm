@@ -1,0 +1,153 @@
+package Graphs;
+
+use Mojo::Base 'Mojolicious', -signatures;
+use Data::Dumper;
+use YAML::Syck 'LoadFile';
+use Math::BigInt;
+=head1 NAME
+
+Graphs
+
+=head1 SYNOPSIS
+
+    use Mojolicious::Commands;
+    use lib 'lib';
+    $ENV{GRAPH_CONFIG_FILE}= 't/etc/my-graph.yml'
+    # Start command line interface for application
+    Mojolicious::Commands->start_app('Graphs');
+
+=head1 DESCRIPTION
+
+Startup script for running daemon for a graph.
+
+=head1 METHODS
+
+=head2 startup
+
+Called by parent.
+
+=cut
+
+
+
+# Answer to /
+sub startup ($self) {
+    my $mydat;
+    {
+
+#    my $datfile = "$ENV{HOME}/googledrive/data/chess/spill-tid-fredrik-pappa.yml";
+        my $datfile = "manualtest/test.yml";
+        $YAML::Syck::ImplicitTyping=1;
+        $mydat = LoadFile($datfile);
+    }
+
+    #handle dates
+my $date_c = Mojo::Date->with_roles('+Extended');
+
+sub string2number {
+    my $datesring = shift;
+
+}
+
+    say Dumper $mydat;
+    my $y;
+    for my $r(@$mydat) {
+        my $nr=[0,0];
+        for my $i (0 .. $#$r) {
+            if ($r->[$i] =~ /\d-\d/) {
+                $nr->[$i] = int($date_c->from_short_date($r->[$i])->epoch * 1000);
+            }
+            elsif ($r->[$i] =~ /^\d+:\d+$/) {
+                $nr->[$i] = $date_c->from_time_interval($r->[$i])->epoch;
+            }
+            else {
+                $nr->[$i] = $r->[$i];
+            }
+        }
+        push @$y,$nr;
+    }
+
+#    say Dumper $y;
+
+    my $r = $self->routes;
+
+    $r->get( '/' => sub {
+        my $c = shift;
+
+        {
+            $Data::Dumper::Terse = 1;        # don't output names where feasible
+            $Data::Dumper::Indent = 0;       # turn off all pretty print
+            my $mydata= Dumper $y;
+            $mydata=~ s/\'(\d+)\'/$1/g;
+            say STDERR $mydata;
+            $c->stash(mydata=>$mydata);
+        }
+        $c->render(template => 'live', format => 'html');
+    });
+    $r->namespaces(['Graphs']);
+}
+
+1;
+
+__DATA__
+
+@@ live.html.ep
+<head>
+  <meta charset="utf-8">
+  <title>Test</title>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const chart = Highcharts.chart('container', {
+            chart: {
+                zoomType: 'x'
+            },
+            title: {
+                text: 'USD to EUR exchange rate over time'
+            },
+            subtitle: {
+                text: document.ontouchstart === undefined ?
+                    'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
+            },
+            xAxis: {
+                type: 'datetime'
+            },
+            yAxis: {
+                title: {
+                    text: 'Exchange rate'
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                area: {
+                    marker: {
+                        radius: 3
+                    },
+                    lineWidth: 2,
+                    states: {
+                        hover: {
+                            lineWidth: 1
+                        }
+                    },
+                    threshold: null
+                }
+            },
+
+            series: [{
+                type: 'area',
+                name: 'USD to EUR',
+                data: <%= stash('mydata') %>
+            }]
+        });
+    }
+);
+</script>
+</head>
+<body>
+<div id="container" style="width:100%; height:400px;"></div>
+</body>
+</html>
