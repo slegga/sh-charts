@@ -1,7 +1,7 @@
 <head>
-  <meta charset="utf-8">
-  <title>Test</title>
-<script src="https://code.highcharts.com/highcharts.js"></script>
+   <meta charset="utf-8">
+   <title>Test</title>
+   <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/data.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script>
@@ -11,7 +11,7 @@
                 zoomType: 'x'
             },
             title: {
-                text: 'USD to EUR exchange rate over time'
+                text: '<%= stash('title')||'title is missing in config' %>'
             },
             subtitle: {
                 text: document.ontouchstart === undefined ?
@@ -22,7 +22,7 @@
             },
             yAxis: {
                 title: {
-                    text: 'Exchange rate'
+                    text: '<%= stash('yAxisName')||'yAxisName is missing' %>'
                 }
             },
             legend: {
@@ -45,7 +45,7 @@
 
             series: [{
                 type: 'area',
-                name: 'USD to EUR',
+                name: '<%= stash('name')//stash('yAxisName')//'yAxisName is missing' %>',
                 data: <%= stash('mydata') %>
             }]
         });

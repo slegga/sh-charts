@@ -3,6 +3,7 @@ package Graphs;
 use Mojo::Base 'Mojolicious', -signatures;
 use Data::Dumper;
 use YAML::Syck 'LoadFile';
+use Text::CSV qw( csv );
 use Math::BigInt;
 =head1 NAME
 
@@ -35,19 +36,27 @@ sub startup ($self) {
     my $mydat;
     {
 
+    # Everything can be customized with options
+    die "Missing GRAPH_CONFIG_FILE" if ! $ENV{GRAPH_CONFIG_FILE};
+    my $config = $self->plugin(Config => {file => $ENV{GRAPH_CONFIG_FILE}});
+
 #    my $datfile = "$ENV{HOME}/googledrive/data/chess/spill-tid-fredrik-pappa.yml";
-        my $datfile = "manualtest/test.yml";
-        $YAML::Syck::ImplicitTyping=1;
-        $mydat = LoadFile($datfile);
+        my $datfile = $config->{datafile};
+        for ($datfile) {
+            if ( /ml$/) {
+                $YAML::Syck::ImplicitTyping=1;
+                $mydat = LoadFile($datfile);
+            } elsif (/csv$/) {
+                warn "$datfile is read";
+                $mydat = csv (in => $datfile, sep_char=>";" );    # as array of array ref
+            } else {
+                die "Unknown filetype $_";
+            }
+        }
     }
 
     #handle dates
-my $date_c = Mojo::Date->with_roles('+Extended');
-
-sub string2number {
-    my $datesring = shift;
-
-}
+    my $date_c = Mojo::Date->with_roles('+Extended');
 
     say Dumper $mydat;
     my $y;
@@ -59,6 +68,9 @@ sub string2number {
             }
             elsif ($r->[$i] =~ /^\d+:\d+$/) {
                 $nr->[$i] = $date_c->from_time_interval($r->[$i])->epoch;
+            }
+            elsif($r->[$i]=~/^\d{9,10}$/) {
+                $nr->[$i] = $r->[$i] * 1000;
             }
             else {
                 $nr->[$i] = $r->[$i];
@@ -78,8 +90,9 @@ sub string2number {
             $Data::Dumper::Terse = 1;        # don't output names where feasible
             $Data::Dumper::Indent = 0;       # turn off all pretty print
             my $mydata= Dumper $y;
-            $mydata=~ s/\'(\d+)\'/$1/g;
+            $mydata=~ s/\'(\d+(.\d+)?)\'/$1/g;
             say STDERR $mydata;
+            $c->stash($c->config);
             $c->stash(mydata=>$mydata);
         }
         $c->render(template => 'live', format => 'html');
@@ -89,65 +102,4 @@ sub string2number {
 
 1;
 
-__DATA__
 
-@@ live.html.ep
-<head>
-  <meta charset="utf-8">
-  <title>Test</title>
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/modules/data.js"></script>
-<script src="https://code.highcharts.com/modules/exporting.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const chart = Highcharts.chart('container', {
-            chart: {
-                zoomType: 'x'
-            },
-            title: {
-                text: 'USD to EUR exchange rate over time'
-            },
-            subtitle: {
-                text: document.ontouchstart === undefined ?
-                    'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
-            },
-            xAxis: {
-                type: 'datetime'
-            },
-            yAxis: {
-                title: {
-                    text: 'Exchange rate'
-                }
-            },
-            legend: {
-                enabled: false
-            },
-            plotOptions: {
-                area: {
-                    marker: {
-                        radius: 3
-                    },
-                    lineWidth: 2,
-                    states: {
-                        hover: {
-                            lineWidth: 1
-                        }
-                    },
-                    threshold: null
-                }
-            },
-
-            series: [{
-                type: 'area',
-                name: 'USD to EUR',
-                data: <%= stash('mydata') %>
-            }]
-        });
-    }
-);
-</script>
-</head>
-<body>
-<div id="container" style="width:100%; height:400px;"></div>
-</body>
-</html>
