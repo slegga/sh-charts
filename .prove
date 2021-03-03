@@ -1,0 +1,60 @@
+---
+generation: 1
+last_run_time: 1614793280.19656
+tests:
+  t/basic-pod-coverage.t:
+    elapsed: 0.289690017700195
+    gen: 1
+    last_pass_time: 1614793278.82952
+    last_result: 0
+    last_run_time: 1614793278.82952
+    last_todo: 0
+    seq: 1
+    total_passes: 1
+  t/basic-script-compile.t:
+    elapsed: 0.290725946426392
+    gen: 1
+    last_pass_time: 1614793279.12253
+    last_result: 0
+    last_run_time: 1614793279.12253
+    last_todo: 0
+    seq: 2
+    total_passes: 1
+  t/basic-script-help.t:
+    elapsed: 0.130560874938965
+    gen: 1
+    last_pass_time: 1614793279.27355
+    last_result: 0
+    last_run_time: 1614793279.27355
+    last_todo: 0
+    seq: 3
+    total_passes: 1
+  t/basic-test-pod.t:
+    elapsed: 0.205394983291626
+    gen: 1
+    last_pass_time: 1614793279.48088
+    last_result: 0
+    last_run_time: 1614793279.48088
+    last_todo: 0
+    seq: 4
+    total_passes: 1
+  t/perl-critic.t:
+    elapsed: 0.600986957550049
+    gen: 1
+    last_pass_time: 1614793280.08405
+    last_result: 0
+    last_run_time: 1614793280.08405
+    last_todo: 0
+    seq: 5
+    total_passes: 1
+  t/test-Extended.t:
+    elapsed: 0.109532833099365
+    gen: 1
+    last_pass_time: 1614793280.19621
+    last_result: 0
+    last_run_time: 1614793280.19621
+    last_todo: 0
+    seq: 6
+    total_passes: 1
+version: 1
+...
