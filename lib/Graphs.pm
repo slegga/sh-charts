@@ -61,7 +61,7 @@ sub startup ($self) {
                 $YAML::Syck::ImplicitTyping=1;
                 $mydat = LoadFile($datfile);
             } elsif (/csv$/) {
-                warn "$datfile is read";
+#                warn "$datfile is read";
                 $mydat = csv (in => $datfile, sep_char=>";" );    # as array of array ref
             } else {
                 die "Unknown filetype $_";
