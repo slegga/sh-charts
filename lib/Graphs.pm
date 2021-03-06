@@ -5,6 +5,20 @@ use Data::Dumper;
 use YAML::Syck 'LoadFile';
 use Text::CSV qw( csv );
 use Math::BigInt;
+use Mojo::File 'path';
+my $lib;
+BEGIN {
+    my $gitdir = Mojo::File->curfile;
+    my @cats = @$gitdir;
+    while (my $cd = pop @cats) {
+        if ($cd eq 'git') {
+            $gitdir = path(@cats,'git');
+            last;
+        }
+    }
+    $lib =  $gitdir->child('utilities-perl','lib')->to_string; #return utilities-perl/lib
+};
+
 =head1 NAME
 
 Graphs
