@@ -57,14 +57,13 @@ sub startup ($self) {
 
     # Everything can be customized with options
     die "Missing GRAPH_CONFIG_FILE" if ! $ENV{GRAPH_CONFIG_FILE};
-	my $config =  $self->config;
+    my $config = $self->plugin(Config => {file => $ENV{GRAPH_CONFIG_FILE}});
 	$self->mode('development');
 	my $gcc = Model::GetCommonConfig->new->get_mojoapp_config($0);
-	$gcc->{$_} = $config->{$_} for (keys %$config);
-    $self->config($gcc);
+	$config->{$_} = $gcc->{$_} for (keys %$gcc);
+    $self->config($config);
     $self->secrets($gcc->{secrets});
 
-    my $config = $self->plugin(Config => {file => $ENV{GRAPH_CONFIG_FILE}});
 
 #    my $datfile = "$ENV{HOME}/googledrive/data/chess/spill-tid-fredrik-pappa.yml";
         my $datfile = $config->{datafile};

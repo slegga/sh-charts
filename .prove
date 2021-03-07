@@ -1,66 +1,66 @@
 ---
-generation: 4
-last_run_time: 1615125030.60779
+generation: 5
+last_run_time: 1615126095.60701
 tests:
   t/basic-pod-coverage.t:
-    elapsed: 0.495852947235107
-    gen: 4
-    last_pass_time: 1615125027.81548
+    elapsed: 0.480087995529175
+    gen: 5
+    last_pass_time: 1615126092.78999
     last_result: 0
-    last_run_time: 1615125027.81548
+    last_run_time: 1615126092.78999
     last_todo: 0
     mtime: 1612889988
-    seq: 19
-    total_passes: 4
+    seq: 25
+    total_passes: 5
   t/basic-script-compile.t:
-    elapsed: 0.929597139358521
-    gen: 4
-    last_pass_time: 1615125028.7646
+    elapsed: 0.920690774917603
+    gen: 5
+    last_pass_time: 1615126093.72994
     last_result: 0
-    last_run_time: 1615125028.7646
+    last_run_time: 1615126093.72994
     last_todo: 0
     mtime: 1612889988
-    seq: 20
-    total_passes: 4
+    seq: 26
+    total_passes: 5
   t/basic-script-help.t:
-    elapsed: 0.201458930969238
-    gen: 4
-    last_pass_time: 1615125028.9691
+    elapsed: 0.199886798858643
+    gen: 5
+    last_pass_time: 1615126093.9329
     last_result: 0
-    last_run_time: 1615125028.9691
+    last_run_time: 1615126093.9329
     last_todo: 0
     mtime: 1612889988
-    seq: 21
-    total_passes: 4
+    seq: 27
+    total_passes: 5
   t/basic-test-pod.t:
-    elapsed: 0.369611024856567
-    gen: 4
-    last_pass_time: 1615125029.34156
+    elapsed: 0.367594957351685
+    gen: 5
+    last_pass_time: 1615126094.30341
     last_result: 0
-    last_run_time: 1615125029.34156
+    last_run_time: 1615126094.30341
     last_todo: 0
     mtime: 1612889988
-    seq: 22
-    total_passes: 4
+    seq: 28
+    total_passes: 5
   t/perl-critic.t:
-    elapsed: 1.07839298248291
-    gen: 4
-    last_pass_time: 1615125030.42296
+    elapsed: 1.10441303253174
+    gen: 5
+    last_pass_time: 1615126095.41133
     last_result: 0
-    last_run_time: 1615125030.42296
+    last_run_time: 1615126095.41133
     last_todo: 0
     mtime: 1612889988
-    seq: 23
-    total_passes: 4
+    seq: 29
+    total_passes: 5
   t/test-Extended.t:
-    elapsed: 0.180893898010254
-    gen: 4
-    last_pass_time: 1615125030.60723
+    elapsed: 0.176486968994141
+    gen: 5
+    last_pass_time: 1615126095.6065
     last_result: 0
-    last_run_time: 1615125030.60723
+    last_run_time: 1615126095.6065
     last_todo: 0
     mtime: 1612979416
-    seq: 24
-    total_passes: 4
+    seq: 30
+    total_passes: 5
 version: 1
 ...
