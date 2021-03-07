@@ -6,6 +6,8 @@ use YAML::Syck 'LoadFile';
 use Text::CSV qw( csv );
 use Math::BigInt;
 use Mojo::File 'path';
+use Data::Dumper;
+use lib 'lib';
 my $lib;
 BEGIN {
     my $gitdir = Mojo::File->curfile;
@@ -18,6 +20,9 @@ BEGIN {
     }
     $lib =  $gitdir->child('utilities-perl','lib')->to_string; #return utilities-perl/lib
 };
+use lib $lib;
+use SH::UseLib;
+use Model::GetCommonConfig;
 
 =head1 NAME
 
@@ -52,6 +57,13 @@ sub startup ($self) {
 
     # Everything can be customized with options
     die "Missing GRAPH_CONFIG_FILE" if ! $ENV{GRAPH_CONFIG_FILE};
+	my $config =  $self->config;
+	$self->mode('development');
+	my $gcc = Model::GetCommonConfig->new->get_mojoapp_config($0);
+	$gcc->{$_} = $config->{$_} for (keys %$config);
+    $self->config($gcc);
+    $self->secrets($gcc->{secrets});
+
     my $config = $self->plugin(Config => {file => $ENV{GRAPH_CONFIG_FILE}});
 
 #    my $datfile = "$ENV{HOME}/googledrive/data/chess/spill-tid-fredrik-pappa.yml";
