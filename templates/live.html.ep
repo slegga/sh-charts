@@ -24,7 +24,28 @@
                 title: {
                     text: '<%= stash('yAxisName')||'yAxisName is missing' %>'
                 }
+% if (stash('yAxisType')) {
+                ,type: '<%= stash('yAxisType') %>',
+                labels: {
+                    format: '{value:%M:%S}',
+                }
+
+% }
             },
+% if (stash('yAxisType')) {
+            tooltip: {
+                xDateFormat: '%Y-%m-%d',
+%#                yDateFormat: '%M:%S',
+%#                shared: true,
+              	formatter: function () {
+                    const datex= new Date(this.x)
+                	const date = new Date(this.y)
+                	const M = date.getMinutes()
+                    const S = date.getSeconds()
+                  return Highcharts.dateFormat('%e-%m-%Y',datex) +` - ${M}:${S}`
+                }
+              },
+% }
             legend: {
                 enabled: false
             },
@@ -55,5 +76,29 @@
 </head>
 <body>
 <div id="container" style="width:100%; height:400px;"></div>
+<b>
+%= stash('msg');
+</b>
+% if (stash('input')) {
+%=   form_for datapoint => begin
+%   while (my ($k,$v) = each %{stash('input')}) {
+%= $v->{label};
+% if($v->{'type'} eq 'date') {
+%= date_field $k;
+%} elsif($v->{type} eq 'time') {
+%= time_field $k;
+%} elsif($v->{type} eq 'number') {
+%= number_field $k;
+%} elsif($v->{type} eq 'shortdate' || $v->{type} eq 'timesec') {
+%= text_field $k => $v->{value};
+%} else {
+%= text_field $k
+%}
+<BR/>
+%   }
+%= submit_button
+%   end
+%}
+
 </body>
 </html>

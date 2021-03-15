@@ -64,4 +64,14 @@ sub epoch1000($self) {
     return $self->epoch * 1000;
 }
 
+=head2 timesec
+
+Return date as M::SS
+
+=cut
+
+sub timesec($self) {
+    my $epoch = $self->epoch;
+    return sprintf("%d:%2d",int($epoch /60), $epoch % 60);
+}
 1;
