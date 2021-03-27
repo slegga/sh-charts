@@ -128,11 +128,11 @@ sub startup ($self) {
         # set default values
         if (exists $config->{input}) {
             while (my ($k,$v) = each %{ $config->{input} }) {
-                if ($v->{type} eq 'shortdate') {
+                if ($v->{type} && $v->{type} eq 'shortdate') {
                     my @localtime = localtime;
                     $v->{value} = sprintf ("%d/%d-%d",$localtime[3], $localtime[4]+1,$localtime[5] -100);
                 }
-                elsif ($v->{type} eq 'timesec') {
+                elsif ($v->{type} && $v->{type} eq 'timesec') {
                     $v->{value} = $date_c->new($series->[$#$series]->[1]/1000)->timesec;
                 }
                 else {
@@ -156,19 +156,43 @@ sub startup ($self) {
         my $validator = Mojolicious::Validator->new;
         my $v = Mojolicious::Validator::Validation->new(validator => $validator);
         $v->input( {x => $x_in, y => $y_in} );
-        $v->required('x')->check('like',qr/^\d\d?\/\d\d?\-\d\d$/);
-        $v->required('y')->check('like',qr/^\d\d?:\d\d$/);
+        $v->required('x')->check('like',qr/^\d\d?\/\d\d?\-\d\d$|now/);
+        if ($config->{input}->{y}->{type} && $config->{input}->{y}->{type} eq 'timesec') {
+            $v->required('y')->check('like',qr/^\d\d?:\d\d$/);
+        } else {
+            $v->required('y')->check('like', qr/[\d\.]+/);
+        }
         if ($v->is_valid('x') && $v->is_valid('y')) {
-            my $x = $v->param('x');
-            my $y = $v->param('y');
-             my $config = $c->config;
-            open (my $fh,'>>',$c->config->{datafile});
-            print $fh "'$x';'$y'\n";
-            close $fh;
-            $config->{input}->{x}->{value}= $x;
-            $config->{input}->{y}->{value}= $y;
 
-            push @$series, [$date_c->from_short_date($x)->epoch1000,$date_c->from_time_interval($y)->epoch1000];
+            # calculate x_save and y_save
+            my ($x_save, $y_save);
+            { # x,y schope
+                my $x = $v->param('x');
+                my $y = $v->param('y');
+                $config->{input}->{x}->{value}= $x;
+                $config->{input}->{y}->{value}= $y;
+                 my $config = $c->config;
+
+                #Store and show
+                if ($x eq 'now') {
+                    $x_save = time * 1000;
+                } else {
+                    $x_save = $date_c->from_short_date($x)->epoch1000;
+                }
+                if($config->{input}->{y}->{type} && $config->{input}->{y}->{type} eq 'timesec') {
+                    $y_save = $date_c->from_time_interval($y)->epoch1000;
+                } else {
+                    $y_save = $y;
+                }
+            }
+
+            # Store
+            open (my $fh,'>>',$c->config->{datafile});
+            print $fh "$x_save;$y_save\n";
+            close $fh;
+
+            #Show
+            push @$series, [$x_save, $y_save];
             @$series  = sort {$a->[0] <=> $b->[0] } @$series;
 
             $c->stash($config);
@@ -176,10 +200,10 @@ sub startup ($self) {
             my $err='';
             for my $k(qw/x y/) {
                 if($v->has_error($k)) {
-                    $err .= "$k: ". $v->error($k);
+                    $err .= "$k: ".$c->param($k).'='. join(' # ',@{ $v->error($k)});
                 }
             }
-            $c->stash('msg' => sprintf("Invalid values. $err"));
+            $c->stash('msg' => sprintf("Invalid values. $err") );
         }
 
         # Print data

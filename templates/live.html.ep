@@ -83,17 +83,19 @@
 %=   form_for datapoint => begin
 %   while (my ($k,$v) = each %{stash('input')}) {
 %= $v->{label};
-% if($v->{'type'} eq 'date') {
-%= date_field $k;
-%} elsif($v->{type} eq 'time') {
-%= time_field $k;
-%} elsif($v->{type} eq 'number') {
-%= number_field $k;
-%} elsif($v->{type} eq 'shortdate' || $v->{type} eq 'timesec') {
-%= text_field $k => $v->{value};
-%} else {
+% if(! $v->{'type'}) {
 %= text_field $k
-%}
+% } elsif($v->{'type'} eq 'date') {
+%= date_field $k;
+% } elsif($v->{type} eq 'time') {
+%= time_field $k;
+% } elsif($v->{type} eq 'number') {
+%= number_field $k;
+% } elsif($v->{type} eq 'shortdate' || $v->{type} eq 'timesec') {
+%= text_field $k => $v->{value};
+% } else {
+%= text_field $k
+% }
 <BR/>
 %   }
 %= submit_button

@@ -1,68 +1,68 @@
 ---
-generation: 7
-last_run_time: 1615831393.02777
+generation: 8
+last_run_time: 1616827859.98764
 tests:
   t/basic-pod-coverage.t:
-    elapsed: 0.274716138839722
-    gen: 7
+    elapsed: 0.415429830551147
+    gen: 8
     last_fail_time: 1615831284.97575
-    last_pass_time: 1615831391.25354
+    last_pass_time: 1616827857.85645
     last_result: 0
-    last_run_time: 1615831391.25354
+    last_run_time: 1616827857.85645
     last_todo: 0
     mtime: 1612889988
-    seq: 37
+    seq: 43
     total_failures: 1
-    total_passes: 6
+    total_passes: 7
   t/basic-script-compile.t:
-    elapsed: 0.791343927383423
-    gen: 7
-    last_pass_time: 1615831392.04681
+    elapsed: 0.973361015319824
+    gen: 8
+    last_pass_time: 1616827858.83197
     last_result: 0
-    last_run_time: 1615831392.04681
+    last_run_time: 1616827858.83197
     last_todo: 0
     mtime: 1612889988
-    seq: 38
-    total_passes: 7
+    seq: 44
+    total_passes: 8
   t/basic-script-help.t:
-    elapsed: 0.114482879638672
-    gen: 7
-    last_pass_time: 1615831392.16298
+    elapsed: 0.111280918121338
+    gen: 8
+    last_pass_time: 1616827858.94526
     last_result: 0
-    last_run_time: 1615831392.16298
+    last_run_time: 1616827858.94526
     last_todo: 0
     mtime: 1612889988
-    seq: 39
-    total_passes: 7
+    seq: 45
+    total_passes: 8
   t/basic-test-pod.t:
-    elapsed: 0.213020801544189
-    gen: 7
-    last_pass_time: 1615831392.37787
+    elapsed: 0.216513872146606
+    gen: 8
+    last_pass_time: 1616827859.1637
     last_result: 0
-    last_run_time: 1615831392.37787
+    last_run_time: 1616827859.1637
     last_todo: 0
     mtime: 1612889988
-    seq: 40
-    total_passes: 7
+    seq: 46
+    total_passes: 8
   t/perl-critic.t:
-    elapsed: 0.537657022476196
-    gen: 7
-    last_pass_time: 1615831392.91724
+    elapsed: 0.718233108520508
+    gen: 8
+    last_pass_time: 1616827859.8838
     last_result: 0
-    last_run_time: 1615831392.91724
+    last_run_time: 1616827859.8838
     last_todo: 0
     mtime: 1612889988
-    seq: 41
-    total_passes: 7
+    seq: 47
+    total_passes: 8
   t/test-Extended.t:
-    elapsed: 0.108002901077271
-    gen: 7
-    last_pass_time: 1615831393.02745
+    elapsed: 0.100641012191772
+    gen: 8
+    last_pass_time: 1616827859.98729
     last_result: 0
-    last_run_time: 1615831393.02745
+    last_run_time: 1616827859.98729
     last_todo: 0
     mtime: 1612979416
-    seq: 42
-    total_passes: 7
+    seq: 48
+    total_passes: 8
 version: 1
 ...
