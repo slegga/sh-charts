@@ -1,4 +1,4 @@
-package Graphs;
+package SH::Charts;
 
 use Mojo::Base 'Mojolicious', -signatures;
 use Data::Dumper;
@@ -29,19 +29,19 @@ use Model::GetCommonConfig;
 
 =head1 NAME
 
-Graphs
+Charts
 
 =head1 SYNOPSIS
 
     use Mojolicious::Commands;
     use lib 'lib';
-    $ENV{GRAPH_CONFIG_FILE}= 't/etc/my-graph.yml'
+    $ENV{CHART_CONFIG_FILE}= 't/etc/my-chart.yml'
     # Start command line interface for application
-    Mojolicious::Commands->start_app('Graphs');
+    Mojolicious::Commands->start_app('Charts');
 
 =head1 DESCRIPTION
 
-Startup script for running daemon for a graph.
+Startup script for running daemon for a chart.
 
 =head1 METHODS
 
@@ -59,8 +59,8 @@ sub startup ($self) {
     my $mydat;
 
     # Everything can be customized with options
-    die "Missing GRAPH_CONFIG_FILE" if ! $ENV{GRAPH_CONFIG_FILE};
-    my $config = $self->plugin(Config => {file => $ENV{GRAPH_CONFIG_FILE}});
+    die "Missing CHART_CONFIG_FILE" if ! $ENV{CHART_CONFIG_FILE};
+    my $config = $self->plugin(Config => {file => $ENV{CHART_CONFIG_FILE}});
 	$self->mode('development');
 	my $gcc = Model::GetCommonConfig->new->get_mojoapp_config($0);
 	$config->{$_} = $gcc->{$_} for (keys %$gcc);
@@ -146,7 +146,7 @@ sub startup ($self) {
         $c->stash(mydata=>$mydata);
         $c->render(template => 'live', format => 'html');
     });
-    $r->namespaces(['Graphs']);
+    $r->namespaces(['Charts']);
     # /datapoint?x=12%2F02-16&y=7%3A40
     $r->get('/datapoint' => sub {
         my $c = shift;

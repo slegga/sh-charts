@@ -19,11 +19,11 @@ use lib $lib;
 use SH::UseLib;
 use Model::GetCommonConfig;
 
-use Graphs;
+use SH::Charts;
 use Mojolicious::Commands;
-$ENV{GRAPH_CONFIG_FILE} = $ENV{HOME} .'/etc/graph-weight.conf';
+$ENV{CHART_CONFIG_FILE} = $ENV{HOME} .'/etc/chart-chess.conf';
 # Start command line interface for application
-Mojolicious::Commands->start_app('Graphs');
+Mojolicious::Commands->start_app('SH::Charts');
 
 =head1 NAME
 
