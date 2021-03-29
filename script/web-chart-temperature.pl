@@ -21,7 +21,7 @@ use Model::GetCommonConfig;
 
 use SH::Charts;
 use Mojolicious::Commands;
-$ENV{CHART_CONFIG_FILE} = $ENV{HOME} .'/etc/charts-temperature.conf';
+$ENV{CHART_CONFIG_FILE} = $ENV{HOME} .'/etc/chart-temperature.conf';
 # Start command line interface for application
 Mojolicious::Commands->start_app('SH::Charts');
 
