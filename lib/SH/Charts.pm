@@ -65,12 +65,15 @@ sub startup ($self) {
 	my $gcc = Model::GetCommonConfig->new->get_mojoapp_config($0);
 	$config->{$_} = $gcc->{$_} for (keys %$gcc);
     $self->config($config);
+    $self->plugin('Mojolicious::Plugin::Security'=>{main_module_name=> __PACKAGE__, authorized_groups =>['all'] });
     $self->secrets($gcc->{secrets});
 
 
     my $datfile = $config->{datafile};
     for ($datfile) {
-        if ( /ml$/) {
+        if(! $_) {
+            die "Missing datafile key in config.".Dumper $config;
+        } elsif ( /ml$/) {
             $YAML::Syck::ImplicitTyping=1;
             $mydat = LoadFile($datfile);
         } elsif (/csv$/) {

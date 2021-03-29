@@ -80,7 +80,7 @@
 %= stash('msg');
 </b>
 % if (stash('input')) {
-%=   form_for datapoint => begin
+%=   form_for url_abspath('datapoint') => begin
 %   while (my ($k,$v) = each %{stash('input')}) {
 %= $v->{label};
 % if(! $v->{'type'}) {
