@@ -103,9 +103,16 @@ sub startup ($self) {
             elsif($r->[$i] =~ /\d\:\d/) {
                 $nr->[$i] = $date_c->from_time_interval($r->[$i])->epoch1000 ; # Fake seconds
             }
+            elsif ($r-[$i] =~/^[\d\.]+$/) {
+                $nr->[$i] = $r->[$i];
+            }
+            elsif(length($r-[$i]) == 0) {
+                $nr->[$i] = '';
+                say "Empty";
+            }
             else {
                 $nr->[$i] = $r->[$i];
-                say "Unknown";
+                say "Unknown ". $nr->[$i];
             }
         }
         push @$series,$nr;
