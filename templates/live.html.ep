@@ -1,6 +1,22 @@
 <head>
    <meta charset="utf-8">
-   <title>Test</title>
+       <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Bootstrap Core CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+    <!-- Custom CSS -->
+    <style>
+    body {
+        padding-top: 70px;
+        /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+    }
+    </style>
+
+   <title>Chart</title>
    <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/data.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
@@ -76,13 +92,19 @@
 </head>
 <body>
 <div id="container" style="width:100%; height:400px;"></div>
+<div class="container">
 <b>
 %= stash('msg');
 </b>
 % if (stash('input')) {
 %=   form_for url_abspath('datapoint') => begin
-%   while (my ($k,$v) = each %{stash('input')}) {
+%   my %input = %{stash('input')};
+%   for my $k(sort keys %input) {
+%     my $v = $input{$k};
+<div class="row">
+<div class="col-sm-2 text-right" >
 %= $v->{label};
+</div>
 % if(! $v->{'type'}) {
 %= text_field $k
 % } elsif($v->{'type'} eq 'date') {
@@ -96,11 +118,14 @@
 % } else {
 %= text_field $k
 % }
-<BR/>
+</div>
+%# <BR/>
 %   }
+<div class="offset-4 col-8">
 %= submit_button
+</div>
 %   end
 %}
-
+</div>
 </body>
 </html>
