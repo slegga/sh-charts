@@ -1,7 +1,6 @@
 package SH::Charts;
 
 use Mojo::Base 'Mojolicious', -signatures;
-use Data::Dumper;
 use YAML::Syck 'LoadFile';
 use Text::CSV qw( csv );
 use Math::BigInt;
@@ -87,7 +86,7 @@ sub startup ($self) {
     #handle dates
     my $date_c = Mojo::Date->with_roles('+Extended');
 
-    say Dumper $mydat;
+    # say Dumper $mydat;
     my $series;
     for my $r(@$mydat) {
         my $nr=[0,0];
